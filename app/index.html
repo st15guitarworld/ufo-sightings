@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Interactive UFO Sightings</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+  </head>
+  <body ng-app="siteApp">
+    <!--[if lte IE 8]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+
+    <!-- Navigation header code -->
+    <div class="header">
+      <div class="navbar navbar-inverse" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            <a class="navbar-brand no-padding-top" href="#" >
+              <img alt="Brand" class="is-inline" src="images/ufo48x48.png">
+              UFO Sigtings
+            </a>
+          </div>
+
+          <!--
+          <div class="collapse navbar-collapse" id="js-navbar-collapse">
+
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="#/">Home</a></li>
+              <li><a ng-href="#/about">About</a></li>
+              <li><a ng-href="#/">Contact</a></li>
+            </ul>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <div class="search-panel" ng-controller="SearchCtrl" >
+      <div class="container-fluid">
+        <div class="row search-panel-row">
+          <div class="col-lg-4 col-md-4">
+                <div class="col-sm-12">
+                  <div class="input-group">
+                    <input id="places-input" ng-model="inputAutocomplete" ng-change="onAutocompleteChange()"type="text" class="form-control" placeholder="Enter Any Location">
+                    <div class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></div>
+                  </div>
+                </div>
+          </div>
+          <div class="col-lg-4 col-md-4">
+            <div class="form-group">
+              <div class="col-sm-6">
+                <div class="input-group">
+                  <input type="text" placeholder="Start Date"class="form-control" ng-focus="open1()" uib-datepicker-popup="{{options.format}}" ng-model="dt1.date" is-open="dt1.isOpen" min-date="options.minDate" max-date="options.maxDate" datepicker-options="options.dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" alt-input-formats="options.altInputFormats" />
+                    <span class="input-group-addon">
+                      <!--<button type="button" class="btn btn-default" ng-click="open1()"> --><i class="glyphicon glyphicon-calendar"></i> <!--</button> -->
+                    </span>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="input-group">
+                  <input type="text" placeholder="End Date"class="form-control" ng-focus="open2()" uib-datepicker-popup="{{options.format}}" ng-model="dt2.date" is-open="dt2.isOpen" min-date="options.minDate" max-date="options.maxDate" datepicker-options="options.dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" alt-input-formats="options.altInputFormats" />
+                    <span class="input-group-addon">
+                      <!-- <button type="button" class="btn btn-default" ng-click="open2()"> --> <i class="glyphicon glyphicon-calendar"></i> <!--</button> -->
+                    </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-lg-4">
+            <button type="button" class="btn btn-primary" ng-click="searchPressed()"> <i class="glyphicon glyphicon-search"></i> Search</button>
+            <button type="button" class="btn btn-default" ng-click="resetFilter()"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Add your site or application content here -->
+    <div class="map-outer-container" ng-controller="MainCtrl">
+      <!--<div class="search-pull-down">
+          <span class="search-pull-down-span" ng-click="toggleSearchPanel()">Filter Options <span class="glyphicon glyphicon-chevron-up"></span></span>
+      </div> -->
+      <ui-gmap-google-map control="theMap.control" center='theMap.center' options="theMap.options" zoom='theMap.zoom' events='theMap.events'>
+        <ui-gmap-layer type="FusionTablesLayer" show="true"  onCreated="fusionTableCreateCallBack" options="fusionLayer.options" ></ui-gmap-layer>
+        <ui-gmap-map-control template="views/geocontrol.tpl.html" position="bottom-right" controller="MainCtrl" index="-1"></ui-gmap-map-control>
+      </ui-gmap-google-map>
+      <!-- <div ng-view=""></div> -->
+    </div>
+
+    <div class="footer">
+      <div class="container">
+
+      </div>
+    </div>
+
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+     <!--<script>
+
+       !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
+       (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
+       r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
+       }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+       ga('create', 'UA-XXXXX-X');
+       ga('send', 'pageview');
+    </script> -->
+
+    <script src='http://maps.googleapis.com/maps/api/js?key=AIzaSyCsmwmZp0Gezedc-I4m2RVItw4m6b5FnpQ&libraries=places&language=en&v=3.29'></script>
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-simple-logger/dist/angular-simple-logger.js"></script>
+    <script src="bower_components/lodash/lodash.js"></script>
+    <script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/GeoLocationMarker/src/geolocationmarker-compiled.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script type="text/javascript" src="scripts/app.js"></script>
+        <script type="text/javascript" src="scripts/services/fusionLayerService.js"></script>
+        <script type="text/javascript" src="scripts/services/infoWindowService.js"></script>
+        <script type="text/javascript" src="scripts/controllers/infoWindowCtr.js"></script>
+        <script type="text/javascript" src="scripts/services/MapService.js"></script>
+        <script type="text/javascript" src="scripts/controllers/searchCtrl.js"></script>
+        <script type="text/javascript" src="scripts/controllers/main.js"></script>
+
+
+        <!-- endbuild -->
+</body>
+</html>
