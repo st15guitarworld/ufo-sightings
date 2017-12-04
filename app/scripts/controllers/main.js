@@ -14,6 +14,12 @@ angular.module('siteApp')
 $rootScope.searchIsVisible= false;
 $scope.geomarker = null;
 $scope.geoPositionChanged = false;
+$scope.template = "<div class=\"googft-info-window\">" +
+  "<b>Reported On:</b> {{yyyymmddToDate(row.reported_at.value)}}<br>" +
+  "<b>Location Sited:</b> {{row.location.value}}<br>" +
+  "<b>Eye Witness Description:</b> {{row.description.value}}" +
+"</div>"
+
     uiGmapGoogleMapApi.then(function(maps) {
           if( typeof _.contains === 'undefined' ) {
             _.contains = _.includes;
@@ -52,12 +58,10 @@ $scope.gemarkerPositionChanged = function(){
     }
 }
   $scope.fusionTableCreateCallBack = function(layer){
-    var template = infoWindowService.loadTemplate()[1];
-
     layer.addListener('click',function(e){
       console.log(e);
       infoWindowService.setRow(e.row);
-      e.infoWindowHtml = infoWindowService.interpolateIt(template);
+      e.infoWindowHtml = infoWindowService.interpolateIt($scope.template);
     //  console.log(infoCtrl);
       //infoCtrl.loadColumns(e);
     //  e.infoWindowHtml = $interpolate(template)(infoCtrl);
